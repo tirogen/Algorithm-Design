@@ -1,10 +1,18 @@
-n=int(input().strip())
+import sys
+kb=sys.stdin
+def pareto(l,r):
+    if l>r: return
+    if l==r: return L[l:l+1]
+    m=(l+r)//2
+    left = pareto(l,m)
+    right = pareto(m+1,r)
+    maxYR = sorted(right,key=lambda x:-x[1])[0]
+    newLeft = [e for e in left if e[1]>maxYR[1]]
+    return newLeft+right
+    
+n=int(kb.readline())
 L=[]
 for i in range(n):
-    x,y=[int(e) for e in input().strip().split()]
-    L.append((x,y))
-maxY=sorted(L,key=lambda x:-x[1])[0]
-count=1
-for o in L:
-    if o[0]>maxY[0]:count+=1
-print(count)
+    L.append([int(e) for e in kb.readline().strip().split()])
+L.sort()
+print(len(pareto(0,n-1)))
