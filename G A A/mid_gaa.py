@@ -1,19 +1,23 @@
-def G(n):
-    g="gaa"
-    zum=3
-    i=1
-    while zum<n:
-        if n<=zum+i+3:
-            if n==zum+1: return "g"
-            else: return "a"
-        if n<=2*zum+i+3:
-            if n==zum+i+4: return "g"
-            else: return "a"
-        g=g+"g"+"a"*(i+2)+g
-        zum=2*zum+1+(i+2)
-        i+=1
-    return g[n-1]
+import sys
+kb=sys.stdin
 
-n=int(input().strip())
+mem=[3]*28
+def GAA(n):
+    if n==0: return 3
+    if mem[n]!=3: return mem[n]
+    mem[n]= GAA(n-1)+n+3+GAA(n-1)
+    return mem[n]
+GAA(27)
+mem+=[0]
 
-print(G(n))
+def GA(n, k):
+    if mem[k-1]<n<=mem[k-1]+k+3:
+        if n==mem[k-1]+1: return "g"
+        else: return "a"
+    elif n>mem[k]:
+        return GA(n, k+1)
+    else:
+        return GA(n-mem[k-1]-k-3,0)
+
+n=int(kb.readline())
+print(GA(n,0))
