@@ -1,19 +1,20 @@
-def lic(c,i):
-    if i==n:return 1
-    if L[i]>L[c]:return max(1+lic(i,i+1), lic(c,i+1))
-    else:return lic(c,i+1)
+import numpy as np
 
-def lis(c,i):
-    if i==n :return 0
-    if mem[c][i]!="x": return mem[c][i]
-    if L[i]>L[c] :
-        mem[c][i]=max(1+lic(i,i+1),lis(c,i+1),lis(i,i+1))
-    else :
-        mem[c][i]=max(lis(c,i+1),lis(i,i+1))
-    return mem[c][i]
+def lis(i,j):
+    global n,M
+    if i >= n: return 0
+    if M[i][j]!="x": return M[i][j]
+    if L[i]>j:
+        M[i][j] = max(1+lis(i+1,L[i]), lis(i+1,j))
+    else:
+        M[i][j] = lis(i+1,j)
+    return M[i][j]
 
-
-n=int(input().strip())
-L=[int(e) for e in input().strip().split()]
-mem=[["x"]*n for e in range(n)]
-print(lis(0,1))
+n = int(input().strip())
+L = np.zeros(n, dtype=np.int32)
+i = 0
+for e in input().strip().split():
+    L[i] = int(e)
+    i += 1
+M = [["x"]*(np.max(L)+5) for i in range(n+5)]
+print( max([lis(i,-1) for i in range(n)]) )
