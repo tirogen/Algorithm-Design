@@ -10,21 +10,14 @@ for e in kb.readline().strip().split():
     i += 1
 
 M = max(L)
-##for i in range(n):
-##    zum = 0
-##    for k in range(w):
-##        if i+k < n: zum += L[i+k]
-##        M = max(M, zum)
-##        if zum < 0:
-##            i = i+k
-##            break
-
 i = 0
 while i < n:
     zum = 0
     for k in range(w):
         if i+k < n: zum += L[i+k]
         M = max(M, zum)
-        if zum < 0: break
-    i += k+1
+        if zum < 0:
+            i += k+1
+            break
+    i += 1
 print(M)

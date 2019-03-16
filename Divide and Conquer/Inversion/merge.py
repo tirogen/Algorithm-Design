@@ -5,6 +5,7 @@ def merge(l,r):
     left = merge(l,mid)
     right = merge(mid+1,r)
     for w in left:
+        #bad, i am lazy
         count += len([e for e in right if e < w])
     return left+right
 
