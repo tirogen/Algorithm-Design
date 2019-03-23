@@ -1,14 +1,14 @@
 from sys import stdin as kb
 from collections import deque
 
-def bfs(R,C,r,c,mapp,start,end):
+def bfs(R,C,mapp,mon,end):
     d=[[float('inf')]*C for _ in range(R)]
-    d[r][c]=start
     q=deque()
-    q.append((start,r,c))
+    for o in mon:
+        d[o[1]][o[2]]=o[0]
+        q.append(o)
     while len(q)>0:
         du,y,x=q.popleft()
-        if du==end:break
         for a,b in {(0,1),(1,0),(-1,0),(0,-1)}:
             if 0<=y+a<R and 0<=x+b<C and mapp[y+a][x+b]=="."\
                and du+1<d[y+a][x+b] and du+1<=end:
@@ -23,14 +23,8 @@ for _ in range(int(kb.readline())):
     mapp=[]
     for _ in range(R):mapp.append(kb.readline().strip())
 
-    pacmanMap=bfs(R,C,r,c,mapp,0,T)
-    ghostsMap=[[float('inf')]*C for _ in range(R)]
-
-    for ghost in ghosts:
-        g=bfs(R,C,ghost[1],ghost[2],mapp,ghost[0],T)
-        for i in range(R):
-            for j in range(C):
-                ghostsMap[i][j]=min(ghostsMap[i][j],g[i][j])
+    pacmanMap=bfs(R,C,mapp,{(0,r,c)},T)
+    ghostsMap=bfs(R,C,mapp,ghosts,T)
 
     for i in range(R):
         for j in range(C):
